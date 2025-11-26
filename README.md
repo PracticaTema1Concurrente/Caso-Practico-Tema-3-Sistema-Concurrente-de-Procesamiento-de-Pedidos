@@ -16,18 +16,18 @@ Diseñar e implementar una aplicación Spring Boot que gestione de forma concurr
 
 Crear un proyecto Spring Boot con los siguientes paquetes:
 
-  orders → clases que representan los pedidos y su procesamiento.
-  service → servicios que gestionan las operaciones concurrentes.
-  aspects → aspectos AOP que interceptan y registran la ejecución.
-  annotations → anotaciones personalizadas (por ejemplo, @Auditable o @TimedProcess).
+  - orders → clases que representan los pedidos y su procesamiento.
+  - service → servicios que gestionan las operaciones concurrentes.
+  - aspects → aspectos AOP que interceptan y registran la ejecución.
+  - annotations → anotaciones personalizadas (por ejemplo, @Auditable o @TimedProcess).
 
 ### Concurrencia
 
 Simular la llegada de varios pedidos al sistema (por ejemplo, 10 pedidos simultáneos).
 Cada pedido se procesa en un hilo independiente mediante:
 
-  ExecutorService, o
-  métodos asincrónicos con @Async y @EnableAsync.
+  - ExecutorService, o
+  - métodos asincrónicos con @Async y @EnableAsync.
   
 Cada hilo debe realizar tareas simuladas con pausas aleatorias (uso de Thread.sleep()) para representar tiempos de red o cálculo.
 
@@ -35,14 +35,14 @@ Cada hilo debe realizar tareas simuladas con pausas aleatorias (uso de Thread.sl
 
 Definir un aspecto con @Aspect que:
 
-  Intercepte los métodos marcados con @Auditable para registrar inicio y fin de cada pedido.
-  Use @Around para calcular el tiempo de ejecución de cada proceso.
-  Use @AfterThrowing para capturar y registrar errores simulados (por ejemplo, “pago rechazado”).
+  - Intercepte los métodos marcados con @Auditable para registrar inicio y fin de cada pedido.
+  - Use @Around para calcular el tiempo de ejecución de cada proceso.
+  - Use @AfterThrowing para capturar y registrar errores simulados (por ejemplo, “pago rechazado”).
 
 ### Anotaciones personalizadas
 
-Crear una anotación @Auditable o @TimedProcess para marcar los métodos que deben ser auditados o cronometrados.
-El aspecto debe reconocer estas anotaciones para aplicar el comportamiento transversal.
+- Crear una anotación @Auditable o @TimedProcess para marcar los métodos que deben ser auditados o cronometrados.
+- El aspecto debe reconocer estas anotaciones para aplicar el comportamiento transversal.
 
 ### Simulación
 
