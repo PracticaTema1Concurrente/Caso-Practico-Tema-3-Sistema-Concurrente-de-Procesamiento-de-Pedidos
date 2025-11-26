@@ -1,134 +1,95 @@
-📦 Caso-Práctico-Tema-3: Sistema Concurrente de Procesamiento de Pedidos
-PedidoSimulator
+Iván Hidalgo y Gabriel Kaakedjian
 
-PedidoSimulator es una aplicación para simular el procesamiento de pedidos con diferentes estados y pasos, registrar su ejecución mediante auditoría y almacenar los resultados en una base de datos H2.
+# Caso-Practico-Tema-3-Sistema-Concurrente-de-Procesamiento-de-Pedidos
 
-La aplicación permite ejecutar simulaciones de manera individual, masiva o en bucle, y visualiza los datos en tiempo real y tras la finalización de la simulación.
+### Resumen:
 
-🚀 Características
+Una empresa de comercio electrónico quiere simular un sistema que procese simultáneamente múltiples pedidos de clientes. Cada pedido se procesa en un hilo independiente (por ejemplo, verificación de stock, cobro, envío). Se busca aplicar Programación Orientada a Aspectos (AOP) para separar las tareas de auditoría, control de rendimiento y manejo de excepciones, sin ensuciar la lógica del negocio principal.
 
-Simulación de pedidos con estados:
+### Objetivos:
 
-PENDING
+Diseñar e implementar una aplicación Spring Boot que gestione de forma concurrente múltiples pedidos de una tienda online, aplicando aspectos AOP para registrar, auditar y controlar el rendimiento de los procesos de pedido.
 
-PROCESSING
+### Requerimientos:
 
-COMPLETED
+### Estructura general del proyecto
 
-FAILED
+Crear un proyecto Spring Boot con los siguientes paquetes:
 
-Probabilidad configurable de fallo por pedido.
+  orders → clases que representan los pedidos y su procesamiento.
+  service → servicios que gestionan las operaciones concurrentes.
+  aspects → aspectos AOP que interceptan y registran la ejecución.
+  annotations → anotaciones personalizadas (por ejemplo, @Auditable o @TimedProcess).
 
-Auditoría de pedidos mediante Aspecto Spring Boot (@Auditable) que intercepta y controla los métodos durante el proceso.
+### Concurrencia
 
-Persistencia de resultados en H2 + Hibernate.
+Simular la llegada de varios pedidos al sistema (por ejemplo, 10 pedidos simultáneos).
+Cada pedido se procesa en un hilo independiente mediante:
 
-Visualización en tiempo real de los pedidos:
+  ExecutorService, o
+  métodos asincrónicos con @Async y @EnableAsync.
+  
+Cada hilo debe realizar tareas simuladas con pausas aleatorias (uso de Thread.sleep()) para representar tiempos de red o cálculo.
 
-Radar de estados con bolitas animadas.
+### Programación Orientada a Aspectos (AOP)
 
-Estadísticas dinámicas de desempeño.
+Definir un aspecto con @Aspect que:
 
-Tablas resumen tras la simulación con métricas y volumen económico.
+  Intercepte los métodos marcados con @Auditable para registrar inicio y fin de cada pedido.
+  Use @Around para calcular el tiempo de ejecución de cada proceso.
+  Use @AfterThrowing para capturar y registrar errores simulados (por ejemplo, “pago rechazado”).
 
-Simulaciones:
+### Anotaciones personalizadas
 
-Individual
+Crear una anotación @Auditable o @TimedProcess para marcar los métodos que deben ser auditados o cronometrados.
+El aspecto debe reconocer estas anotaciones para aplicar el comportamiento transversal.
 
-Masiva
+### Simulación
 
-Bucle automático
+Desde el main, crear varios pedidos (por ejemplo, Order(id, total, customerName)), y enviarlos a procesar concurrentemente.
+Simular que algunos pedidos fallan (por ejemplo, lanzar excepciones aleatorias para ciertos hilos).
 
-🏗️ Arquitectura
-Backend (Spring Boot)
+### Ejemplo de salida esperada:
 
-Controladores: Endpoints REST para iniciar simulaciones y consultar resultados.
+=== INICIO DE SIMULACIÓN DE PEDIDOS ===
 
-Servicios: Lógica de simulación y manejo de pedidos.
+[INFO] Pedido 1 recibido para el cliente: Ana López
+[INFO] Pedido 2 recibido para el cliente: Carlos Gómez
+[INFO] Pedido 3 recibido para el cliente: Marta Ruiz
+[INFO] Pedido 4 recibido para el cliente: Diego Torres
+[INFO] Pedido 5 recibido para el cliente: Laura Fernández
+[INFO] Pedido 6 recibido para el cliente: Pedro Ramírez
+[INFO] Pedido 7 recibido para el cliente: Sofía Medina
+[INFO] Pedido 8 recibido para el cliente: Juan Pérez
+[INFO] Pedido 9 recibido para el cliente: Lucía Vargas
+[INFO] Pedido 10 recibido para el cliente: Jorge Castillo
 
-Repositorios: Persistencia de entidades Order en H2.
+--- Auditoría: Inicio de proceso para Pedido 1 ---
+--- Auditoría: Inicio de proceso para Pedido 2 ---
+--- Auditoría: Inicio de proceso para Pedido 3 ---
+...
 
-Aspectos (@Auditable): Interceptan métodos para auditar cambios de estado.
+[PERFORMANCE] Pedido 1 procesado en 2048 ms
+[PERFORMANCE] Pedido 2 procesado en 1720 ms
+[PERFORMANCE] Pedido 3 procesado en 3081 ms
+[PERFORMANCE] Pedido 4 procesado en 1523 ms
+[ERROR] Pedido 5 falló: Pago rechazado (Error simulado)
+[PERFORMANCE] Pedido 6 procesado en 2987 ms
+[PERFORMANCE] Pedido 7 procesado en 1999 ms
+[ERROR] Pedido 8 falló: Error al verificar stock (Error simulado)
+[PERFORMANCE] Pedido 9 procesado en 1655 ms
+[PERFORMANCE] Pedido 10 procesado en 2100 ms
 
-Frontend (JavaScript / HTML / CSS)
+--- Auditoría: Fin de proceso para Pedido 1 ---
+--- Auditoría: Fin de proceso para Pedido 2 ---
+--- Auditoría: Fin de proceso para Pedido 3 ---
+--- Auditoría: Fin de proceso para Pedido 4 ---
+--- Auditoría: Fin de proceso para Pedido 6 ---
+--- Auditoría: Fin de proceso para Pedido 7 ---
+--- Auditoría: Fin de proceso para Pedido 9 ---
+--- Auditoría: Fin de proceso para Pedido 10 ---
 
-Radar de pedidos en tiempo real, mostrando bolitas según estado.
-
-Tablas y estadísticas dinámicas.
-
-Recepción de datos vía API REST (o WebSocket según implementación).
-
-Controles de simulación:
-
-Iniciar un pedido
-
-Simular múltiples pedidos
-
-Ejecutar bucle automático
-
-Base de datos (H2)
-
-Almacenamiento de todas las órdenes simuladas.
-
-Consultas de estados y métricas agregadas.
-
-Integración completa con Hibernate para persistencia automática.
-
-🔄 Flujo de datos
-
-Generación de pedidos: Se crea un pedido con ID único y estado inicial PENDING.
-
-Procesamiento: Los pedidos avanzan a PROCESSING → (COMPLETED o FAILED) según la probabilidad de fallo.
-
-Auditoría: Cada cambio de estado se intercepta mediante @Auditable.
-
-Persistencia: Los pedidos finalizados se guardan en H2.
-
-Visualización: El frontend recibe los datos en tiempo real y genera bolitas en el radar + estadísticas.
-
-Post-simulación: Tablas resumen muestran métricas finales y volumen económico.
-
-⚡ Cómo ejecutar
-# Clonar el repositorio
-git clone <repositorio>
-
-# Ejecutar la aplicación Spring Boot
-./mvnw spring-boot:run
-
-
-Acceder a la interfaz web: http://localhost:8080
-
-Controles de simulación:
-
-Simular 1 pedido
-
-Simular varios pedidos
-
-Iniciar bucle automático
-
-🔧 Personalización
-
-Probabilidad de fallo: Configurable en el servicio de simulación.
-
-Duración de visualización de bolitas: Configurable en spawnPulseDots (por defecto 10 segundos).
-
-Base de datos: H2 puede reemplazarse por cualquier otra compatible con Spring Data JPA.
-
-📦 Dependencias
-Backend
-
-Spring Boot 3.x
-
-Spring Web
-
-Spring Data JPA
-
-H2 Database
-
-Frontend
-
-Vanilla JS / HTML / CSS
-
-Auditoría
-
-AspectJ / Spring AOP
+=== PROCESAMIENTO FINALIZADO ===
+Pedidos completados exitosamente: 8
+Pedidos con error: 2
+Tiempo total de simulación: 3200 ms aprox.
