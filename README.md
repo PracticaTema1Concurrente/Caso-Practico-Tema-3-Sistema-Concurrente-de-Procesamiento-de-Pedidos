@@ -2,6 +2,9 @@ Iván Hidalgo y Gabriel Kaakedjian
 
 # Caso-Practico-Tema-3-Sistema-Concurrente-de-Procesamiento-de-Pedidos
 
+### Breve explicación del ejercicio:
+
+
 ### Resumen:
 
 Una empresa de comercio electrónico quiere simular un sistema que procese simultáneamente múltiples pedidos de clientes. Cada pedido se procesa en un hilo independiente (por ejemplo, verificación de stock, cobro, envío). Se busca aplicar Programación Orientada a Aspectos (AOP) para separar las tareas de auditoría, control de rendimiento y manejo de excepciones, sin ensuciar la lógica del negocio principal.
