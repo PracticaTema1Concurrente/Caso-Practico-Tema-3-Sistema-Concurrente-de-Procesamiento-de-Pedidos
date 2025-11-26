@@ -1,0 +1,18 @@
+<div class="card">
+    <h2 class="card__title">Buscador de pedidos</h2>
+    <p class="card__subtitle">
+        Localiza rápidamente un pedido por ID, nombre de cliente o rango de fechas (luego lo refinamos).
+    </p>
+
+    <form id="form-search" class="form form--inline">
+        <div class="form__group">
+            <label for="search-term">Buscar</label>
+            <input type="text" id="search-term" placeholder="ID, nombre de cliente..." />
+        </div>
+        <button type="submit" class="btn btn--primary">Buscar</button>
+    </form>
+
+    <div id="search-results" class="search-results">
+        <p class="empty-state">Introduce un término para buscar pedidos.</p>
+    </div>
+</div>

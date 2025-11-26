@@ -1,0 +1,884 @@
+// STATS HTML
+
+<div class="stats-layout">
+
+    <!-- Fila 1: KPIs + calidad -->
+    <div class="grid grid--2cols stats-layout__top">
+        <!-- Resumen global -->
+        <div class="card">
+            <h2 class="card__title">Resumen global</h2>
+            <p class="card__subtitle">
+                Visión general del sistema de pedidos.
+            </p>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Total pedidos</span>
+                    <span id="stat-total-orders" class="kpi-card__value">0</span>
+                    <span class="kpi-card__badge">Acumulado</span>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-card__label">En curso</span>
+                    <span id="stat-in-progress" class="kpi-card__value">0</span>
+                    <span class="kpi-card__badge kpi-card__badge--info">Pendientes + procesando</span>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Completados</span>
+                    <span id="stat-completed" class="kpi-card__value">0</span>
+                    <span class="kpi-card__badge kpi-card__badge--success">Éxito</span>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Fallidos</span>
+                    <span id="stat-failed" class="kpi-card__value">0</span>
+                    <span class="kpi-card__badge kpi-card__badge--danger">Errores</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calidad de servicio -->
+        <div class="card">
+            <h2 class="card__title">Calidad de servicio</h2>
+            <p class="card__subtitle">
+                Ratios de éxito, fallo y pedidos en cola.
+            </p>
+
+            <div class="metric-group">
+                <div class="metric">
+                    <div class="metric__header">
+                        <span class="metric__label">Tasa de éxito</span>
+                        <span id="stat-success-rate" class="metric__value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div id="bar-success-fill"
+                             class="metric-bar__fill metric-bar__fill--success"></div>
+                    </div>
+                    <div class="metric__subtext">
+                        Basado en pedidos completados vs fallidos.
+                    </div>
+                </div>
+
+                <div class="metric">
+                    <div class="metric__header">
+                        <span class="metric__label">Tasa de fallo</span>
+                        <span id="stat-fail-rate" class="metric__value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div id="bar-fail-fill"
+                             class="metric-bar__fill metric-bar__fill--fail"></div>
+                    </div>
+                </div>
+
+                <div class="metric">
+                    <div class="metric__header">
+                        <span class="metric__label">Pedidos en cola</span>
+                        <span id="stat-pending-rate" class="metric__value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div id="bar-pending-fill"
+                             class="metric-bar__fill metric-bar__fill--pending"></div>
+                    </div>
+                    <div class="metric__subtext">
+                        Porcentaje sobre el total de pedidos.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fila 2: distribución + rendimiento -->
+    <div class="grid grid--2cols stats-layout__middle">
+        <!-- Distribución por estado (gráfico de barras) -->
+        <div class="card">
+            <h2 class="card__title">Distribución por estado</h2>
+            <p class="card__subtitle">
+                Reparto actual de todos los pedidos por estado.
+            </p>
+
+            <div class="status-bars">
+                <div class="status-bar-row">
+                    <div class="status-bar-row__header">
+                        <span>Pendientes</span>
+                        <span id="stat-pending" class="status-bar-row__value">0 (0%)</span>
+                    </div>
+                    <div class="status-bar">
+                        <div id="bar-status-pending"
+                             class="status-bar__fill status-bar__fill--pending"></div>
+                    </div>
+                </div>
+
+                <div class="status-bar-row">
+                    <div class="status-bar-row__header">
+                        <span>Procesando</span>
+                        <span id="stat-processing" class="status-bar-row__value">0 (0%)</span>
+                    </div>
+                    <div class="status-bar">
+                        <div id="bar-status-processing"
+                             class="status-bar__fill status-bar__fill--processing"></div>
+                    </div>
+                </div>
+
+                <div class="status-bar-row">
+                    <div class="status-bar-row__header">
+                        <span>Completados</span>
+                        <span id="stat-completed-dist" class="status-bar-row__value">0 (0%)</span>
+                    </div>
+                    <div class="status-bar">
+                        <div id="bar-status-completed"
+                             class="status-bar__fill status-bar__fill--completed"></div>
+                    </div>
+                </div>
+
+                <div class="status-bar-row">
+                    <div class="status-bar-row__header">
+                        <span>Fallidos</span>
+                        <span id="stat-failed-dist" class="status-bar-row__value">0 (0%)</span>
+                    </div>
+                    <div class="status-bar">
+                        <div id="bar-status-failed"
+                             class="status-bar__fill status-bar__fill--failed"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rendimiento temporal -->
+        <div class="card">
+            <h2 class="card__title">Rendimiento temporal</h2>
+            <p class="card__subtitle">
+                Tiempos de procesamiento y throughput del sistema.
+            </p>
+
+            <div class="kpi-grid kpi-grid--small">
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Tiempo medio</span>
+                    <span id="stat-avg-time" class="kpi-card__value">–</span>
+                    <span class="kpi-card__badge">ms por pedido</span>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Tiempo máximo</span>
+                    <span id="stat-max-time" class="kpi-card__value">–</span>
+                    <span class="kpi-card__badge">ms observados</span>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Throughput</span>
+                    <span id="stat-throughput-h" class="kpi-card__value">–</span>
+                    <span class="kpi-card__badge">pedidos / hora</span>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Ventana de datos</span>
+                    <span id="stat-time-window" class="kpi-card__value">–</span>
+                    <span class="kpi-card__badge">entre primer y último pedido</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fila 3: dinero e importes -->
+    <div class="card stats-layout__bottom">
+        <h2 class="card__title">Volumen económico</h2>
+        <p class="card__subtitle">
+            Información sobre importes y tamaño medio de los pedidos.
+        </p>
+
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <span class="kpi-card__label">Importe total</span>
+                <span id="stat-total-amount" class="kpi-card__value">0 €</span>
+                <span class="kpi-card__badge">suma de todos los pedidos</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-card__label">Ticket medio</span>
+                <span id="stat-avg-amount" class="kpi-card__value">0 €</span>
+                <span class="kpi-card__badge">por pedido</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-card__label">Pedidos pequeños (&lt; 50€)</span>
+                <span id="stat-low-amount-count" class="kpi-card__value">0</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-card__label">Pedidos medianos (50–150€)</span>
+                <span id="stat-mid-amount-count" class="kpi-card__value">0</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-card__label">Pedidos grandes (&gt; 150€)</span>
+                <span id="stat-high-amount-count" class="kpi-card__value">0</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+// STATS JS
+
+(function () {
+  function safeNumber(value) {
+    const n = typeof value === 'number' ? value : parseFloat(value);
+    return isNaN(n) ? null : n;
+  }
+
+  function setText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+
+  function setBarScale(id, ratio) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const r = Math.max(0, Math.min(1, ratio || 0));
+    el.style.transform = `scaleX(${r})`;
+  }
+
+  function formatMs(ms) {
+    if (ms == null) return '–';
+    if (ms < 1000) return `${ms} ms`;
+    const s = ms / 1000;
+    if (s < 60) return `${s.toFixed(1)} s`;
+    const m = s / 60;
+    return `${m.toFixed(1)} min`;
+  }
+
+  function formatWindowLabel(diffMs) {
+    if (!diffMs || diffMs <= 0) return '–';
+    const minutes = diffMs / 1000 / 60;
+    if (minutes < 60) return `${minutes.toFixed(1)} min`;
+    const hours = minutes / 60;
+    return `${hours.toFixed(1)} h`;
+  }
+
+  function updateStats(orders) {
+    const list = orders || [];
+
+    const total = list.length;
+    const completed = list.filter(o => o.status === 'COMPLETED').length;
+    const failed = list.filter(o => o.status === 'FAILED').length;
+    const processing = list.filter(o => o.status === 'PROCESSING').length;
+    const pending = list.filter(o => o.status === 'PENDING').length;
+    const inProgress = pending + processing;
+
+    // --- Tiempos ---
+    let totalTime = 0;
+    let maxTime = 0;
+    let countTime = 0;
+    let minCreated = null;
+    let maxCreated = null;
+
+    list.forEach(o => {
+      if (o.createdAt) {
+        const t = new Date(o.createdAt);
+        if (!isNaN(t.getTime())) {
+          if (!minCreated || t < minCreated) minCreated = t;
+          if (!maxCreated || t > maxCreated) maxCreated = t;
+        }
+      }
+
+      if (o.createdAt && o.completedAt) {
+        const t1 = new Date(o.createdAt);
+        const t2 = new Date(o.completedAt);
+        if (!isNaN(t1.getTime()) && !isNaN(t2.getTime())) {
+          const diff = t2 - t1;
+          if (diff >= 0) {
+            totalTime += diff;
+            countTime++;
+            if (diff > maxTime) maxTime = diff;
+          }
+        }
+      }
+    });
+
+    const avgMs = countTime > 0 ? Math.round(totalTime / countTime) : null;
+    const windowDiffMs =
+      minCreated && maxCreated && maxCreated > minCreated
+        ? maxCreated - minCreated
+        : null;
+
+    // --- Importe económico ---
+    let totalAmount = 0;
+    let countAmount = 0;
+    let low = 0;
+    let mid = 0;
+    let high = 0;
+
+    list.forEach(o => {
+      const val = safeNumber(o.totalAmount);
+      if (val == null) return;
+      totalAmount += val;
+      countAmount++;
+
+      if (val < 50) low++;
+      else if (val < 150) mid++;
+      else high++;
+    });
+
+    const avgAmount = countAmount > 0 ? totalAmount / countAmount : null;
+
+    // --- Ratios ---
+    const successBase = completed + failed;
+    const successRate = successBase > 0 ? completed / successBase : 0;
+    const failRate = successBase > 0 ? failed / successBase : 0;
+    const pendingRate = total > 0 ? pending / total : 0;
+
+    const pendingPercent = total > 0 ? pending / total : 0;
+    const processingPercent = total > 0 ? processing / total : 0;
+    const completedPercent = total > 0 ? completed / total : 0;
+    const failedPercent = total > 0 ? failed / total : 0;
+
+    let throughputH = null;
+    if (windowDiffMs && windowDiffMs > 0) {
+      const hours = windowDiffMs / 1000 / 60 / 60;
+      if (hours > 0) {
+        throughputH = total / hours;
+      }
+    }
+
+    // --- PINTAR EN LA UI ---
+
+    // Resumen global
+    setText('stat-total-orders', total);
+    setText('stat-in-progress', inProgress);
+    setText('stat-completed', completed);
+    setText('stat-failed', failed);
+
+    // Calidad de servicio
+    setText('stat-success-rate', `${Math.round(successRate * 100)}%`);
+    setBarScale('bar-success-fill', successRate);
+
+    setText('stat-fail-rate', `${Math.round(failRate * 100)}%`);
+    setBarScale('bar-fail-fill', failRate);
+
+    setText('stat-pending-rate', `${Math.round(pendingRate * 100)}%`);
+    setBarScale('bar-pending-fill', pendingRate);
+
+    // Distribución por estado
+    setText(
+      'stat-pending',
+      `${pending} (${Math.round(pendingPercent * 100)}%)`
+    );
+    setBarScale('bar-status-pending', pendingPercent);
+
+    setText(
+      'stat-processing',
+      `${processing} (${Math.round(processingPercent * 100)}%)`
+    );
+    setBarScale('bar-status-processing', processingPercent);
+
+    setText(
+      'stat-completed-dist',
+      `${completed} (${Math.round(completedPercent * 100)}%)`
+    );
+    setBarScale('bar-status-completed', completedPercent);
+
+    setText(
+      'stat-failed-dist',
+      `${failed} (${Math.round(failedPercent * 100)}%)`
+    );
+    setBarScale('bar-status-failed', failedPercent);
+
+    // Rendimiento temporal
+    setText('stat-avg-time', avgMs != null ? formatMs(avgMs) : '–');
+    setText('stat-max-time', maxTime > 0 ? formatMs(maxTime) : '–');
+    setText(
+      'stat-throughput-h',
+      throughputH != null ? throughputH.toFixed(1) : '–'
+    );
+    setText(
+      'stat-time-window',
+      windowDiffMs ? formatWindowLabel(windowDiffMs) : '–'
+    );
+
+    // Volumen económico
+    setText(
+      'stat-total-amount',
+      `${totalAmount.toFixed(2)} €`
+    );
+    setText(
+      'stat-avg-amount',
+      avgAmount != null ? `${avgAmount.toFixed(2)} €` : '–'
+    );
+    setText('stat-low-amount-count', low);
+    setText('stat-mid-amount-count', mid);
+    setText('stat-high-amount-count', high);
+  }
+
+  function renderSimulationResult(result) {
+    const container = document.getElementById('simulation-result');
+    if (!container) return;
+
+    if (!result) {
+      container.innerHTML = `<p class="simulation-result__placeholder">
+        Aún no se ha ejecutado ninguna simulación.
+      </p>`;
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="simulation-result">
+        <p><strong>Pedidos simulados:</strong> ${result.totalOrders}</p>
+        <p><strong>Completados:</strong> ${result.completed}</p>
+        <p><strong>Fallidos:</strong> ${result.failed}</p>
+        <p><strong>Tiempo total:</strong> ${result.totalTimeMs} ms</p>
+      </div>
+    `;
+  }
+
+  window.StatsUI = {
+    updateStats,
+    renderSimulationResult
+  };
+})();
+
+
+// SECTIONS CSS
+
+/* Chips de estado */
+.status-chip {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-chip--PENDING {
+  background: rgba(234, 179, 8, 0.12);
+  color: #facc15;
+}
+
+.status-chip--PROCESSING {
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--accent-strong);
+}
+
+.status-chip--COMPLETED {
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+}
+
+.status-chip--FAILED {
+  background: rgba(248, 113, 113, 0.12);
+  color: #f97373;
+}
+
+/* Active orders: tarjetas con círculo de progreso */
+.active-orders {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.active-order-card {
+  border-radius: var(--radius-md);
+  padding: 10px 12px 12px;
+  border: 1px solid rgba(30, 64, 175, 0.6);
+  background: rgba(15, 23, 42, 0.96);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.7);
+}
+
+/* COMPLETADO (verde) */
+.active-order-card--completed {
+  border-color: rgba(34, 197, 94, 0.8);
+  background: rgba(22, 163, 74, 0.12);
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+}
+
+/* FALLIDO (rojo) */
+.active-order-card--failed {
+  border-color: rgba(248, 113, 113, 0.8);
+  background: rgba(239, 68, 68, 0.12);
+  box-shadow: 0 0 12px rgba(248, 113, 113, 0.4);
+}
+
+.active-order__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-soft);
+}
+
+.active-order__id {
+  font-weight: 500;
+  color: var(--accent-strong);
+}
+
+.active-order__amount {
+  font-weight: 500;
+}
+
+.active-order__name {
+  margin-top: 2px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Contenedor del círculo */
+.active-order__progress-wrapper {
+  margin-top: 6px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Círculo de progreso */
+.progress-circle {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-circle__svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg); /* Para que empiece arriba */
+}
+
+.progress-circle__bg,
+.progress-circle__value {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.progress-circle__bg {
+  stroke: rgba(30, 64, 175, 0.6);
+}
+
+.progress-circle__value {
+  stroke: var(--accent-strong);
+  stroke-dasharray: 339.29;
+  stroke-dashoffset: 339.29;
+  transition: stroke-dashoffset 0.4s ease-out;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.6));
+}
+
+.progress-circle__label {
+  position: relative;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Texto del paso actual */
+.active-order__step {
+  font-size: 11px;
+  color: var(--text-soft);
+}
+
+.active-order__step--center {
+  text-align: center;
+  margin-top: 6px;
+}
+
+/* (por si alguna parte sigue usando barra lineal) */
+.progress-bar {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(30, 64, 175, 0.5);
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.progress-bar__fill {
+  position: absolute;
+  inset: 0;
+  width: 30%;
+  background: linear-gradient(90deg, var(--accent-strong), #22d3ee);
+  transform-origin: left center;
+}
+
+/* Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.stat {
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(30, 64, 175, 0.7);
+}
+
+.stat__label {
+  font-size: 11px;
+  color: var(--text-soft);
+}
+
+.stat__value {
+  display: block;
+  font-size: 18px;
+  margin-top: 2px;
+}
+
+/* Chart placeholder */
+.chart-placeholder {
+  margin-top: 8px;
+  border-radius: var(--radius-md);
+  border: 1px dashed rgba(148, 163, 184, 0.5);
+  padding: 18px;
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.chart-placeholder__text {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-soft);
+}
+
+/* Search results */
+.search-results {
+  margin-top: 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(30, 64, 175, 0.6);
+  padding: 8px 10px;
+  background: rgba(15, 23, 42, 0.96);
+}
+
+/* Empty states */
+.empty-state {
+  font-size: 12px;
+  color: var(--text-soft);
+}
+
+/* Simulation result */
+.simulation-result {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+/* Layout específico de la sección de creación */
+.create-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Estado del panel de bucle */
+.loop-header {
+  align-items: center;
+}
+
+.loop-status {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-soft);
+  white-space: nowrap;
+}
+
+.loop-status--running {
+  border-color: rgba(34, 197, 94, 0.7);
+  background: rgba(22, 163, 74, 0.12);
+  color: #22c55e;
+}
+
+.loop-status--stopped {
+  border-color: rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-soft);
+}
+
+/* Layout de la sección de estadísticas */
+.stats-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stats-layout__top,
+.stats-layout__middle {
+  gap: 16px;
+}
+
+/* KPIs */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.kpi-grid--small {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.kpi-card {
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(30, 64, 175, 0.7);
+}
+
+.kpi-card__label {
+  font-size: 11px;
+  color: var(--text-soft);
+}
+
+.kpi-card__value {
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.kpi-card__badge {
+  display: inline-flex;
+  margin-top: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-soft);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.kpi-card__badge--success {
+  border-color: rgba(34, 197, 94, 0.7);
+  color: #22c55e;
+}
+
+.kpi-card__badge--danger {
+  border-color: rgba(248, 113, 113, 0.8);
+  color: #f97373;
+}
+
+.kpi-card__badge--info {
+  border-color: rgba(56, 189, 248, 0.7);
+  color: var(--accent-strong);
+}
+
+/* Métricas con barras de progreso */
+.metric-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.metric {
+  font-size: 12px;
+}
+
+.metric__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.metric__label {
+  color: var(--text-soft);
+}
+
+.metric__value {
+  font-weight: 500;
+}
+
+.metric__subtext {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--text-soft);
+}
+
+.metric-bar {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  overflow: hidden;
+}
+
+.metric-bar__fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.25s ease-out;
+}
+
+.metric-bar__fill--success {
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+}
+
+.metric-bar__fill--fail {
+  background: linear-gradient(90deg, #f97373, #fb7185);
+}
+
+.metric-bar__fill--pending {
+  background: linear-gradient(90deg, #eab308, #facc15);
+}
+
+/* Gráfico de barras por estado */
+.status-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.status-bar-row__header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-soft);
+}
+
+.status-bar-row__value {
+  font-weight: 500;
+}
+
+.status-bar {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  overflow: hidden;
+}
+
+.status-bar__fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.25s ease-out;
+}
+
+.status-bar__fill--pending {
+  background: linear-gradient(90deg, #eab308, #facc15);
+}
+
+.status-bar__fill--processing {
+  background: linear-gradient(90deg, var(--accent-strong), #22d3ee);
+}
+
+.status-bar__fill--completed {
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+}
+
+.status-bar__fill--failed {
+  background: linear-gradient(90deg, #f97373, #fb7185);
+}

@@ -1,0 +1,40 @@
+<div class="card">
+    <div class="card__header-row">
+        <div>
+            <h2 class="card__title">Histórico de pedidos</h2>
+            <p class="card__subtitle">
+                Filtra por estado, ordena y navega por todos los pedidos registrados.
+            </p>
+        </div>
+        <div class="filters">
+            <select id="filter-status" class="select">
+                <option value="">Todos los estados</option>
+                <option value="PENDING">Pendiente</option>
+                <option value="PROCESSING">Procesando</option>
+                <option value="COMPLETED">Completado</option>
+                <option value="FAILED">Fallido</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table" id="orders-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>#Pedido</th>
+                <th>Cliente</th>
+                <th>Importe (€)</th>
+                <th>Estado</th>
+                <th>Paso actual</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Error</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Se rellenará con JS -->
+            </tbody>
+        </table>
+    </div>
+</div>

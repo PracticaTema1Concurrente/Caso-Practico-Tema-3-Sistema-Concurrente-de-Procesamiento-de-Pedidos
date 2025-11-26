@@ -1,0 +1,274 @@
+<div class="stats-layout">
+    <!-- Fila 4: Pulso del sistema (ANIMACIÓN) -->
+    <div class="card stats-pulse">
+        <h2 class="card__title">Pulso del sistema</h2>
+        <p class="card__subtitle">
+            Animación que refleja actividad, éxito, fallos y carga global.
+        </p>
+
+        <div class="stats-pulse__content">
+            <div class="pulse-radar">
+                <div class="pulse-radar__grid"></div>
+                <div class="pulse-radar__sweep"></div>
+
+                <!-- Capa donde se pintan las bolitas -->
+                <div class="pulse-radar__dots" id="pulse-dots-layer"></div>
+
+                <!-- Etiquetas en las esquinas, fijas -->
+                <div class="pulse-radar__labels">
+                    <span class="pulse-quadrant-label pulse-quadrant-label--success">Éxitos</span>
+                    <span class="pulse-quadrant-label pulse-quadrant-label--processing">Procesando</span>
+                    <span class="pulse-quadrant-label pulse-quadrant-label--pending">En cola</span>
+                    <span class="pulse-quadrant-label pulse-quadrant-label--fail">Fallidos</span>
+                </div>
+            </div>
+
+            <!-- Medidor de carga + mini KPIs -->
+            <div class="pulse-overview">
+                <div class="pulse-meter">
+                    <div class="pulse-meter__label-row">
+                        <span>Carga del sistema</span>
+                        <span id="pulse-load-label" class="pulse-meter__value">–</span>
+                    </div>
+                    <div class="pulse-meter__bar">
+                        <div id="pulse-load-fill" class="pulse-meter__fill"></div>
+                        <div class="pulse-meter__glow"></div>
+                    </div>
+                    <p class="pulse-meter__hint">
+                        Estimada a partir del throughput y del porcentaje de pedidos activos.
+                    </p>
+                </div>
+
+                <div class="pulse-mini-grid">
+                    <div class="pulse-mini">
+                        <span class="pulse-mini__label">Pedidos/hora</span>
+                        <span id="pulse-throughput" class="pulse-mini__value">–</span>
+                    </div>
+                    <div class="pulse-mini">
+                        <span class="pulse-mini__label">Éxitos últ. ventana</span>
+                        <span id="pulse-success-window" class="pulse-mini__value">–</span>
+                    </div>
+                    <div class="pulse-mini">
+                        <span class="pulse-mini__label">Fallos últ. ventana</span>
+                        <span id="pulse-fail-window" class="pulse-mini__value">–</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fila 1: KPIs + calidad -->
+    <div class="grid grid--2cols stats-layout__top">
+        <!-- Resumen global -->
+        <div class="card">
+            <h2 class="card__title">Resumen global</h2>
+            <p class="card__subtitle">
+                Visión general del sistema de pedidos.
+            </p>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Total pedidos</span>
+                    <span id="stat-total-orders" class="kpi-card__value">0</span>
+                    <span class="kpi-card__badge">Acumulado</span>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-card__label">En curso</span>
+                    <span id="stat-in-progress" class="kpi-card__value">0</span>
+                    <span class="kpi-card__badge kpi-card__badge--info">Pendientes + procesando</span>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Completados</span>
+                    <span id="stat-completed" class="kpi-card__value">0</span>
+                    <span class="kpi-card__badge kpi-card__badge--success">Éxito</span>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Fallidos</span>
+                    <span id="stat-failed" class="kpi-card__value">0</span>
+                    <span class="kpi-card__badge kpi-card__badge--danger">Errores</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calidad de servicio -->
+        <div class="card">
+            <h2 class="card__title">Calidad de servicio</h2>
+            <p class="card__subtitle">
+                Ratios de éxito, fallo y pedidos en cola.
+            </p>
+
+            <div class="metric-group">
+                <div class="metric">
+                    <div class="metric__header">
+                        <span class="metric__label">Tasa de éxito</span>
+                        <span id="stat-success-rate" class="metric__value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div id="bar-success-fill"
+                             class="metric-bar__fill metric-bar__fill--success"></div>
+                    </div>
+                    <div class="metric__subtext">
+                        Basado en pedidos completados vs fallidos.
+                    </div>
+                </div>
+
+                <div class="metric">
+                    <div class="metric__header">
+                        <span class="metric__label">Tasa de fallo</span>
+                        <span id="stat-fail-rate" class="metric__value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div id="bar-fail-fill"
+                             class="metric-bar__fill metric-bar__fill--fail"></div>
+                    </div>
+                </div>
+
+                <div class="metric">
+                    <div class="metric__header">
+                        <span class="metric__label">Pedidos en cola</span>
+                        <span id="stat-pending-rate" class="metric__value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div id="bar-pending-fill"
+                             class="metric-bar__fill metric-bar__fill--pending"></div>
+                    </div>
+                    <div class="metric__subtext">
+                        Porcentaje sobre el total de pedidos.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fila 2: distribución + rendimiento -->
+    <div class="grid grid--2cols stats-layout__middle">
+        <!-- Distribución por estado -->
+        <div class="card">
+            <h2 class="card__title">Distribución por estado</h2>
+            <p class="card__subtitle">
+                Reparto actual de todos los pedidos por estado.
+            </p>
+
+            <div class="status-bars">
+                <div class="status-bar-row">
+                    <div class="status-bar-row__header">
+                        <span>Pendientes</span>
+                        <span id="stat-pending" class="status-bar-row__value">0 (0%)</span>
+                    </div>
+                    <div class="status-bar">
+                        <div id="bar-status-pending"
+                             class="status-bar__fill status-bar__fill--pending"></div>
+                    </div>
+                </div>
+
+                <div class="status-bar-row">
+                    <div class="status-bar-row__header">
+                        <span>Procesando</span>
+                        <span id="stat-processing" class="status-bar-row__value">0 (0%)</span>
+                    </div>
+                    <div class="status-bar">
+                        <div id="bar-status-processing"
+                             class="status-bar__fill status-bar__fill--processing"></div>
+                    </div>
+                </div>
+
+                <div class="status-bar-row">
+                    <div class="status-bar-row__header">
+                        <span>Completados</span>
+                        <span id="stat-completed-dist" class="status-bar-row__value">0 (0%)</span>
+                    </div>
+                    <div class="status-bar">
+                        <div id="bar-status-completed"
+                             class="status-bar__fill status-bar__fill--completed"></div>
+                    </div>
+                </div>
+
+                <div class="status-bar-row">
+                    <div class="status-bar-row__header">
+                        <span>Fallidos</span>
+                        <span id="stat-failed-dist" class="status-bar-row__value">0 (0%)</span>
+                    </div>
+                    <div class="status-bar">
+                        <div id="bar-status-failed"
+                             class="status-bar__fill status-bar__fill--failed"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rendimiento temporal -->
+        <div class="card">
+            <h2 class="card__title">Rendimiento temporal</h2>
+            <p class="card__subtitle">
+                Tiempos de procesamiento y throughput del sistema.
+            </p>
+
+            <div class="kpi-grid kpi-grid--small">
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Tiempo medio</span>
+                    <span id="stat-avg-time" class="kpi-card__value">–</span>
+                    <span class="kpi-card__badge">ms por pedido</span>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Tiempo máximo</span>
+                    <span id="stat-max-time" class="kpi-card__value">–</span>
+                    <span class="kpi-card__badge">ms observados</span>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Throughput</span>
+                    <span id="stat-throughput-h" class="kpi-card__value">–</span>
+                    <span class="kpi-card__badge">pedidos / hora</span>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-card__label">Ventana de datos</span>
+                    <span id="stat-time-window" class="kpi-card__value">–</span>
+                    <span class="kpi-card__badge">entre primer y último pedido</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fila 3: dinero e importes -->
+    <div class="card stats-layout__bottom">
+        <h2 class="card__title">Volumen económico</h2>
+        <p class="card__subtitle">
+            Información sobre importes y tamaño medio de los pedidos.
+        </p>
+
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <span class="kpi-card__label">Importe total</span>
+                <span id="stat-total-amount" class="kpi-card__value">0 €</span>
+                <span class="kpi-card__badge">suma de todos los pedidos</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-card__label">Ticket medio</span>
+                <span id="stat-avg-amount" class="kpi-card__value">0 €</span>
+                <span class="kpi-card__badge">por pedido</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-card__label">Pedidos pequeños (&lt; 50€)</span>
+                <span id="stat-low-amount-count" class="kpi-card__value">0</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-card__label">Pedidos medianos (50–150€)</span>
+                <span id="stat-mid-amount-count" class="kpi-card__value">0</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-card__label">Pedidos grandes (&gt; 150€)</span>
+                <span id="stat-high-amount-count" class="kpi-card__value">0</span>
+            </div>
+        </div>
+    </div>
+
+</div>

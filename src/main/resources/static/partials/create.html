@@ -1,0 +1,177 @@
+<div class="create-layout">
+    <!-- 3. Flujo continuo (bucle) -->
+    <div class="card">
+        <div class="card__header-row loop-header">
+            <div>
+                <h2 class="card__title">Flujo continuo de pedidos (bucle)</h2>
+                <p class="card__subtitle">
+                    Crea lotes de pedidos de forma periódica para simular un flujo continuo.
+                </p>
+            </div>
+            <div id="loop-status" class="loop-status loop-status--stopped">
+                Bucle detenido
+            </div>
+        </div>
+
+        <form id="form-loop" class="form">
+            <div class="form__row">
+                <div class="form__group">
+                    <label for="loop-batchSize">Pedidos por ciclo</label>
+                    <input type="number" min="1" max="200" id="loop-batchSize"
+                           placeholder="Ej. 5" value="5">
+                </div>
+                <div class="form__group">
+                    <label for="loop-intervalSec">Intervalo entre ciclos (s)</label>
+                    <input type="number" min="1" id="loop-intervalSec"
+                           placeholder="Ej. 10" value="10">
+                </div>
+            </div>
+
+            <div class="form__row">
+                <div class="form__group">
+                    <label for="loop-minDelay">Retraso mínimo (ms)</label>
+                    <input type="number" min="0" id="loop-minDelay"
+                           placeholder="Ej. 500">
+                </div>
+                <div class="form__group">
+                    <label for="loop-maxDelay">Retraso máximo (ms)</label>
+                    <input type="number" min="0" id="loop-maxDelay"
+                           placeholder="Ej. 3000">
+                </div>
+                <div class="form__group">
+                    <label for="loop-failureProb">Prob. de fallo (0.0 – 1.0)</label>
+                    <input type="number" step="0.01" min="0" max="1"
+                           id="loop-failureProb" placeholder="Ej. 0.1">
+                </div>
+            </div>
+
+            <div class="form__options">
+                <label class="checkbox">
+                    <input type="checkbox" id="loop-autoProcess" checked>
+                    <span>Procesar automáticamente los pedidos del bucle</span>
+                </label>
+            </div>
+
+            <div class="form__actions">
+                <button type="button" class="btn btn--primary" id="btn-loop-start">
+                    Iniciar bucle
+                </button>
+                <button type="button" class="btn btn--secondary" id="btn-loop-stop">
+                    Detener bucle
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 1. Creación manual -->
+    <div class="card">
+        <h2 class="card__title">Crear nuevo pedido</h2>
+        <p class="card__subtitle">
+            Crea un pedido individual ajustando sus parámetros principales.
+        </p>
+
+        <form id="form-create-order" class="form">
+            <div class="form__row">
+                <div class="form__group">
+                    <label for="customerName">Nombre del cliente</label>
+                    <input type="text" id="customerName" name="customerName"
+                           placeholder="Ej. Ana López" required>
+                </div>
+
+                <div class="form__group">
+                    <label for="totalAmount">Importe total (€)</label>
+                    <input type="number" step="0.01" min="0" id="totalAmount" name="totalAmount"
+                           placeholder="Ej. 89.99" required>
+                </div>
+            </div>
+
+            <div class="form__row">
+                <div class="form__group">
+                    <label for="minDelay">Retraso mínimo (ms)</label>
+                    <input type="number" min="0" id="minDelay" name="minDelay"
+                           placeholder="Ej. 500">
+                </div>
+                <div class="form__group">
+                    <label for="maxDelay">Retraso máximo (ms)</label>
+                    <input type="number" min="0" id="maxDelay" name="maxDelay"
+                           placeholder="Ej. 3000">
+                </div>
+                <div class="form__group">
+                    <label for="failureProb">Prob. de fallo (0.0 – 1.0)</label>
+                    <input type="number" step="0.01" min="0" max="1"
+                           id="failureProb" name="failureProb" placeholder="Ej. 0.2">
+                </div>
+            </div>
+
+            <div class="form__options">
+                <label class="checkbox">
+                    <input type="checkbox" id="autoProcess" checked>
+                    <span>Procesar automáticamente al crear</span>
+                </label>
+
+                <label class="checkbox">
+                    <input type="checkbox" id="batchMode">
+                    <span>Modo lote: solo crear (procesar más tarde)</span>
+                </label>
+            </div>
+
+            <div class="form__actions">
+                <button type="submit" class="btn btn--primary" id="btn-create-order">
+                    Crear pedido
+                </button>
+                <button type="button" class="btn btn--secondary" id="btn-process-pending">
+                    Procesar todos los pendientes
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 2. Simulación masiva puntual -->
+    <div class="card">
+        <h2 class="card__title">Simulación masiva puntual</h2>
+        <p class="card__subtitle">
+            Genera automáticamente un lote de pedidos y procésalos en paralelo una sola vez.
+        </p>
+
+        <form id="form-simulate" class="form">
+            <div class="form__row">
+                <div class="form__group">
+                    <label for="sim-numOrders">Número de pedidos a simular</label>
+                    <input type="number" min="1" max="200" id="sim-numOrders"
+                           name="numberOfOrders" placeholder="Ej. 10" value="10">
+                </div>
+
+                <div class="form__group">
+                    <label for="sim-failureProb">Prob. de fallo (0.0 – 1.0)</label>
+                    <input type="number" step="0.01" min="0" max="1"
+                           id="sim-failureProb" name="failureProbability" placeholder="Ej. 0.2">
+                </div>
+            </div>
+
+            <div class="form__row">
+                <div class="form__group">
+                    <label for="sim-minDelay">Retraso mínimo (ms)</label>
+                    <input type="number" min="0" id="sim-minDelay"
+                           name="minProcessingDelayMs" placeholder="Ej. 500">
+                </div>
+                <div class="form__group">
+                    <label for="sim-maxDelay">Retraso máximo (ms)</label>
+                    <input type="number" min="0" id="sim-maxDelay"
+                           name="maxProcessingDelayMs" placeholder="Ej. 3000">
+                </div>
+            </div>
+
+            <div class="form__actions">
+                <button type="submit" class="btn btn--primary" id="btn-run-simulation">
+                    Ejecutar simulación
+                </button>
+            </div>
+        </form>
+
+        <div id="simulation-result" class="simulation-result">
+            <p class="simulation-result__placeholder">
+                Aún no se ha ejecutado ninguna simulación.
+            </p>
+        </div>
+    </div>
+</div>

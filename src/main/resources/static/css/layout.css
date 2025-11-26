@@ -1,0 +1,222 @@
+/* Layout principal */
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.98));
+  border-right: 1px solid var(--border-subtle);
+  padding: 20px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 999px;
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), rgba(15, 23, 42, 0.9));
+}
+
+.logo__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.85);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 18px;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.3);
+}
+
+.logo__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo__title {
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.logo__subtitle {
+  font-size: 11px;
+  color: var(--text-soft);
+}
+
+/* Navegación lateral */
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.nav__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+}
+
+.nav__icon {
+  font-size: 18px;
+}
+
+.nav__item:hover {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(148, 163, 184, 0.4);
+  color: var(--text-main);
+}
+
+.nav__item--active {
+  background: radial-gradient(circle at top left, var(--accent-soft), rgba(15, 23, 42, 0.95));
+  border-color: rgba(56, 189, 248, 0.6);
+  color: var(--accent-strong);
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4), 0 12px 25px rgba(15, 23, 42, 0.7);
+}
+
+.sidebar__footer {
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.sidebar__tag {
+  font-size: 11px;
+  color: var(--text-soft);
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+/* Main */
+.main {
+  flex: 1;
+  padding: 20px 26px 24px;
+}
+
+/* Topbar */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  gap: 12px;
+}
+
+.topbar__title {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+}
+
+.topbar__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+.topbar__actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Secciones */
+.section {
+  display: none;
+  margin-top: 10px;
+}
+
+.section--active {
+  display: block;
+}
+
+/* Grid utility */
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+.grid--2cols {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+}
+
+@media (max-width: 920px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    padding: 16px;
+  }
+
+  .grid--2cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+#section-active {
+    height: 500px;
+    max-height: 500px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+/* Scrollbar WebKit */
+#section-active::-webkit-scrollbar {
+    width: 10px;               /* grosor */
+}
+
+#section-active::-webkit-scrollbar-track {
+    background: #1a1a2e;       /* color del track (fondo del scrollbar) */
+    border-radius: 5px;
+}
+
+#section-active::-webkit-scrollbar-thumb {
+    background-color: #0f3460; /* color del "pulgar" */
+    border-radius: 5px;
+    border: 2px solid #1a1a2e; /* pequeño borde para separación */
+}
+
+#section-active::-webkit-scrollbar-thumb:hover {
+    background-color: #162447; /* más oscuro al hover */
+}
+
+/* Responsive pequeños */
+@media (max-width: 720px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .topbar__actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .form--inline {
+    flex-direction: column;
+  }
+}

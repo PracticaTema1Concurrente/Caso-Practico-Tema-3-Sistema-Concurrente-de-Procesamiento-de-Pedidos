@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Simulation Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fuente Google (opcional, pero queda tech) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/sections.css">
+
+</head>
+<body>
+<div class="app">
+    <!-- Sidebar de navegación -->
+    <aside class="sidebar">
+        <div class="sidebar__logo">
+            <div class="logo__icon">Ω</div>
+            <div class="logo__text">
+                <span class="logo__title">Stark Orders</span>
+                <span class="logo__subtitle">AOP Simulation</span>
+            </div>
+        </div>
+
+        <nav class="sidebar__nav">
+            <!-- Grupo 1: Buscador + Creación + Histórico -->
+            <button class="nav__item nav__item--active"
+                    data-sections="section-search,section-create,section-orders">
+                <span class="nav__icon">🧭</span>
+                <span>Consola de operaciones</span>
+            </button>
+
+            <!-- Grupo 2: Pedidos en curso + Estadísticas -->
+            <button class="nav__item"
+                    data-sections="section-active,section-stats">
+                <span class="nav__icon">📡</span>
+                <span>Monitor de ejecución</span>
+            </button>
+
+            <!-- Grupo 3: Solo histórico -->
+            <button class="nav__item"
+                    data-sections="section-orders">
+                <span class="nav__icon">🗃️</span>
+                <span>Registro histórico</span>
+            </button>
+        </nav>
+
+        <div class="sidebar__footer">
+            <span class="sidebar__tag">Spring Boot · AOP · Concurrencia</span>
+        </div>
+    </aside>
+
+    <!-- Zona principal -->
+    <main class="main">
+        <!-- Topbar -->
+        <header class="topbar">
+            <div>
+                <h1 class="topbar__title">Simulación concurrente de pedidos</h1>
+                <p class="topbar__subtitle">
+                    Panel para gestionar pedidos, monitorizar su progreso y analizar el rendimiento.
+                </p>
+            </div>
+            <div class="topbar__actions">
+                <button id="btn-refresh" class="btn btn--ghost">Refrescar datos</button>
+                <button id="btn-clear-all" class="btn btn--danger">Limpiar pedidos</button>
+            </div>
+        </header>
+
+        <!-- Barra de notificaciones / mensajes -->
+        <div id="notification-bar" class="notification notification--hidden">
+            <span id="notification-message"></span>
+            <button id="notification-close" class="notification__close">✕</button>
+        </div>
+
+        <!-- Secciones contenedoras: el contenido vendrá de partials -->
+        <section id="section-search" class="section"></section>
+        <section id="section-create" class="section"></section>
+        <section id="section-orders" class="section"></section>
+        <section id="section-active" class="section"></section>
+        <section id="section-stats" class="section"></section>
+
+    </main>
+</div>
+
+<!-- JS Scripts -->
+<script src="js/api.js"></script>
+<script src="js/orders-ui.js"></script>
+<script src="js/progress-ui.js"></script>
+<script src="js/stats-ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
