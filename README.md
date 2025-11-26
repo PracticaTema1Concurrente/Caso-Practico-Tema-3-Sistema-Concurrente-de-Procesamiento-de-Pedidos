@@ -3,6 +3,7 @@ Iván Hidalgo y Gabriel Kaakedjian
 # Caso-Practico-Tema-3-Sistema-Concurrente-de-Procesamiento-de-Pedidos
 
 ### Breve explicación del ejercicio:
+Es una aplicación que simula el procesamiento concurrente de pedidos con distintos estados (PENDING, PROCESSING, COMPLETED, FAILED), registra su ejecución mediante auditoría (@Auditable) y persiste los resultados en una base de datos H2. Permite ejecutar simulaciones individuales, masivas o en bucle, mostrando en tiempo real estadísticas y un radar visual de los pedidos, así como tablas resumen al finalizar la simulación.
 
 
 ### Resumen:
